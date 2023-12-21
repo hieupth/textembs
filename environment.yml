@@ -1,0 +1,11 @@
+name: textembserve                                                                                                                                               
+channels:                                                                                                                                                     
+  - conda-forge                                                                                                                                               
+  - defaults                                                                                                                                                  
+dependencies: 
+  - fastapi
+  - uvicorn
+  - python-crfsuite
+  - pip:
+    - "hftokenizers @ git+https://github.com/hieupth/hftokenizers"
+    - ovmsclient
