@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  bk:
+    image: openvino/model_server
+    container_name: bk
+    command: --model_name bk --model_path /models/bk
+    volumes:
+      - ./models:/models
+  bkapi:
+    image: hieupth/textembserve
+    container_name: bkapi
+    environment:
+      - TOKENIZER=phobert
+      - IS_WORD_SEGMENT=True
+    ports:
+      - 80:80
+    volumes:
+      - ./tokenizer:/tokenizer
+    links:
+      - bk:ovms
