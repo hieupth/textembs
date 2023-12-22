@@ -15,4 +15,5 @@ FROM debian:buster AS RUNTIME
 # Copy /venv from the previous stage:
 COPY --from=ENVIRONMENT /venv /venv
 COPY app.py .
+SHELL ["/bin/bash", "-c"]
 ENTRYPOINT source /venv/bin/activate && uvicorn app:app --host 0.0.0.0 --port 80

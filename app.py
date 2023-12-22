@@ -1,8 +1,9 @@
 import os
 import ovmsclient
+import numpy as np
 from typing import Union
 from fastapi import FastAPI
-from hftokenizers import BertTokenizer, PhoBertTokenizer
+from hftokenizer import BertTokenizer, PhobertTokenizer
 
 # Read tokenizer name.
 TOKENIZER = os.getenv("TOKENIZER", "bert")
@@ -18,7 +19,7 @@ if TOKENIZER.lower() == "bert":
   )
 # Create phobert tokenizer.
 elif TOKENIZER.lower() == "phobert":
-  tokenizer = PhoBertTokenizer.from_pretrained(
+  tokenizer = PhobertTokenizer.from_pretrained(
     MODEL_NAME_OR_PATH,
     vocab_file=os.path.join(MODEL_NAME_OR_PATH, "vocab.txt"),
     merges_file=os.path.join(MODEL_NAME_OR_PATH, "bpe.codes"),
@@ -33,4 +34,10 @@ app = FastAPI()
 
 @app.post("/")
 async def predict(mess: str):
-  return client.predict(inputs=tokenizer(mess))
+  tokenized = tokenizer(mess, return_tenros="np")
+  inputs = {
+    "input_ids": np.array(tokenized["input_ids"], dtype=np.int64),
+    "token_type_ids": np.array(tokenized["token_type_ids"], dtype=np.int64),
+    "attention_mask": np.array(tokenized["attention_mask"], dtype=np.int64)
+  }
+  return client.predict(inputs=inputs)
