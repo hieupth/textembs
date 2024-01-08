@@ -1,0 +1,16 @@
+name: textembserve                                                                                                                                               
+channels:
+  - pytorch                                                                                                                                                     
+  - conda-forge                                                                                                                                               
+  - defaults                                                                                                                                                  
+dependencies: 
+  - rust
+  - pytorch
+  - fastapi
+  - uvicorn
+  - maturin
+  - patchelf
+  - python-crfsuite
+  - pip:
+    - ovmsclient
+    - py_vncorenlp
