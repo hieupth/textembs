@@ -1,0 +1,6 @@
+{
+  "cd4f2": {
+    "tokenizer_model": "vinai/phobert-base-v2",
+    "word_segmenter": "vncorenlp"  
+  }
+}
