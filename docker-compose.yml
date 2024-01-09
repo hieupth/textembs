@@ -9,7 +9,7 @@ services:
       - ./models:/models
       - ./ovms_config.json:/ovms_config.json
   textembs:
-    image: hieupth/textembserve:dev
+    image: hieupth/textembserve
     container_name: textembs
     ports:
       - 80:8080
