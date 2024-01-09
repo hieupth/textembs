@@ -1,6 +1,7 @@
 import os
 import json
 import ovmsclient
+import numpy as np
 from fastapi import FastAPI, HTTPException
 from textembserve.tokenizers import *
 from textembserve import wordsegmenters
@@ -34,6 +35,13 @@ class Messages(BaseModel):
 @app.post("/encode/{model}")
 async def encode(model: str, messages: Messages):
   assert model in TOKENIZERS, HTTPException(status_code=404)
+  metadata = client.get_model_metadata(model)
   tokenizer = TOKENIZERS[model]
   tokenized = tokenizer.encode(messages.messages)
-  return tokenized
+  #
+  inputs = dict()
+  for k in metadata["inputs"].keys():
+    inputs.update({k: np.array(tokenized[k], dtype=np.int64)})
+  res = client.predict(model_name=model, inputs=inputs)
+
+  return res
