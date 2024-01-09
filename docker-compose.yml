@@ -4,6 +4,7 @@ services:
   ovms:
     image: openvino/model_server
     container_name: ovms
+    restart: unless-stopped
     command: --config_path /ovms_config.json --rest_port 8080
     volumes:
       - ./models:/models
@@ -11,6 +12,7 @@ services:
   textembs:
     image: hieupth/textembserve
     container_name: textembs
+    restart: unless-stopped
     ports:
       - 80:8080
     volumes:
