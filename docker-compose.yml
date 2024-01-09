@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  ovms:
+    image: openvino/model_server
+    container_name: ovms
+    command: --config_path /ovms_config.json --rest_port 8080
+    volumes:
+      - ./models:/models
+      - ./ovms_config.json:/ovms_config.json
+  textembs:
+    image: hieupth/textembserve:dev
+    container_name: textembs
+    ports:
+      - 80:8080
+    volumes:
+      - ./tokenizer_config.json:/tokenizer_config.json
+    links:
+      - ovms:ovms
