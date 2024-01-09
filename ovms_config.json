@@ -1,0 +1,9 @@
+{
+  "model_config_list":[{
+      "config":{
+        "name":"cd4f2",
+        "base_path":"/models/cd4f2",
+        "batch_size": "auto"
+      }
+    }]
+}
