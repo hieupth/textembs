@@ -23,4 +23,4 @@ FROM debian:buster AS runtime
 COPY --from=build /venv /venv
 #
 SHELL ["/bin/bash", "-c"]
-ENTRYPOINT source /venv/bin/activate && uvicorn app:app --host 0.0.0.0 --port 80
+ENTRYPOINT source /venv/bin/activate && uvicorn textembserve.app:app --host 0.0.0.0 --port 8080
