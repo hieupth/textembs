@@ -22,5 +22,8 @@ FROM debian:buster AS runtime
 # Copy /venv from the previous stage:
 COPY --from=build /venv /venv
 #
+RUN apt-get update && \
+    apt-get install -y wget default-jdk
+#
 SHELL ["/bin/bash", "-c"]
 ENTRYPOINT source /venv/bin/activate && uvicorn textembserve.app:app --host 0.0.0.0 --port 8080
