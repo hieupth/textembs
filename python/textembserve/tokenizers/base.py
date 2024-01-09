@@ -3,21 +3,19 @@ from textembserve.wordsegmenters import WordSegmenter
 
 
 class Tokenizer:
+  """
+  This is base class of all inherited tokenizers.
+  """
 
-  def __init__(
-      self, 
-      model: str = "vinai/phobert-base-v2", 
-      wordsegmenter = WordSegmenter(), 
-      **kwargs
-      ) -> None:
+  def __init__(self, model: str = None, wseg = None, **kwargs) -> None:
     """
     Class constructor.
-    :param model:         model name or path.
-    :param wordsegmenter: word segmenter to be used.
-    :param kwargs:        additional keyword arguments.
+    :param model:   model name or path.
+    :param wseg:    word segmenter to be used.
+    :param kwargs:  additional keyword arguments.
     """
-    self._tokenizer = textembserve.Rustokenizer(model)
-    self._wordsegmenter = wordsegmenter
+    self._tokenizer = textembserve.RustTokenizer(model)
+    self._wordsegmenter = WordSegmenter() if wseg is None else wseg
 
   def encode(self, message):
     """
