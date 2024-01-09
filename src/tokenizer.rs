@@ -1,6 +1,7 @@
 use pyo3::types::*;
 use pyo3::prelude::*;
 use pyo3::exceptions::*;
+use tokenizers::PaddingParams;
 use tokenizers::tokenizer::{Tokenizer};
 
 #[pyclass]
@@ -15,7 +16,10 @@ impl RustTokenizer
   #[new]
   pub fn new(model: &str) -> PyResult<Self> {
     return match Tokenizer::from_pretrained(model, None) {
-      Ok(t) => Ok(RustTokenizer{ _tokenizer: t}),
+      Ok(mut t) => {
+        t.with_padding(Some(PaddingParams::default()));
+        return Ok(RustTokenizer { _tokenizer: t });
+      },
       Err(_) => Err(PyRuntimeError::new_err("RustTokenizer could not initialized!"))
     };
   }
